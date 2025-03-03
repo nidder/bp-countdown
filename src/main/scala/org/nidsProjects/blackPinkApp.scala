@@ -22,7 +22,7 @@ object blackPinkApp extends IOApp {
     val minutes = duration.minusDays(days).minusHours(hours).toMinutes
     val seconds = duration.minusDays(days).minusHours(hours).minusMinutes(minutes).getSeconds
 
-    s"Days: $days, Hours: $hours, Minutes: $minutes, Seconds: $seconds"
+    s"Ellie & Nida's BlackPink Concert Countdown is.....Days: $days, Hours: $hours, Minutes: $minutes, Seconds: $seconds"
   }
   def run(args: List[String]): IO[ExitCode] = {
     println("Server is starting...")
