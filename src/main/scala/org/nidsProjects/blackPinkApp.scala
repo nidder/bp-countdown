@@ -6,7 +6,10 @@ import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.dsl.io._
 import org.http4s.implicits._
 import com.comcast.ip4s._
+
 import java.time.{Duration, LocalDateTime}
+import scala.sys.env
+import scala.util.Try
 
 object blackPinkApp extends IOApp {
 
@@ -21,6 +24,13 @@ object blackPinkApp extends IOApp {
 
     s"Days: $days, Hours: $hours, Minutes: $minutes, Seconds: $seconds"
   }
+  def run(args: List[String]): IO[ExitCode] = {
+    println("Server is starting...")
+    val port: Port = env.get("PORT")
+      .flatMap(p => Try(p.toInt).toOption)
+      .flatMap(Port.fromInt)
+      .getOrElse(port"8080")
+    val host: Host = host"0.0.0.0"
 
   val service = HttpRoutes.of[IO] {
     case GET -> Root / "countdown" =>
@@ -30,16 +40,13 @@ object blackPinkApp extends IOApp {
 
   val httpApp = service.orNotFound
 
-  val server = EmberServerBuilder.default[IO]
-    .withHost(ipv4"127.0.0.1")
-    .withPort(port"8080")
+  EmberServerBuilder.default[IO]
+    .withHost(host)
+    .withPort(port)
     .withHttpApp(httpApp)
     .build
+    .use(_ => IO.never)
+    .as(ExitCode.Success)
 
-  def run(args: List[String]): IO[ExitCode] = {
-    println("Server is starting...")
-    server.use(_ => IO.never).as(ExitCode.Success).onCancel {
-      IO(println("Server has been cancelled!"))
-    }
   }
 }
