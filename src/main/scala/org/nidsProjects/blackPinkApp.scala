@@ -33,7 +33,7 @@ object blackPinkApp extends IOApp {
     val host: Host = host"0.0.0.0"
 
   val service = HttpRoutes.of[IO] {
-    case GET -> Root / "countdown" =>
+    case GET -> Root =>
       val now = LocalDateTime.now()
       Ok(countdown(now, concertDate))
   }
