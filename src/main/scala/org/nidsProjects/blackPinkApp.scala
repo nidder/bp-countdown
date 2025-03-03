@@ -8,7 +8,7 @@ import org.http4s.implicits._
 import com.comcast.ip4s._
 import java.time.{Duration, LocalDateTime}
 
-object BlackPinkApp extends IOApp {
+object blackPinkApp extends IOApp {
 
   val concertDate: LocalDateTime = LocalDateTime.of(2025, 8, 15, 17, 0)
 
