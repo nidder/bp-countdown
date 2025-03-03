@@ -1,5 +1,6 @@
 plugins {
     id("org.gradle.scala")
+    id("application")
 }
 
 group = 'org.NidsProjects'
@@ -13,11 +14,22 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation('org.scala-lang:scala-library:2.13.12')
-    implementation('org.http4s:http4s-blaze-server_2.13:0.23.6')
+    implementation('org.http4s:http4s-ember-server_2.13:0.23.6')
     implementation('org.http4s:http4s-dsl_2.13:0.23.6')
     implementation('org.http4s:http4s-core_2.13:0.23.6')
+    implementation('com.comcast:ip4s-core_2.13:3.3.0')
+
 }
 
+application {
+    mainClass.set("org.nidsProjects.blackPinkApp")
+}
+
+run {
+    doFirst {
+        println("Running server!....")
+    }
+}
 test {
     useJUnitPlatform()
 }
