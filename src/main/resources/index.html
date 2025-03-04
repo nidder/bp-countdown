@@ -10,34 +10,54 @@
             background-color: #000; /* Black background */
             color: #ff69b4; /* Hot pink text */
             text-align: center;
-            padding: 50px;
+            padding: 20px;
         }
+
         h1 {
             font-size: 2.5em;
+            color: #ff69b4; /* Hot pink color for header */
         }
-        /* First h1 (Ellie & Nida's) in white */
-        h1:first-of-type {
-            color: #FFFFFF; /* White for Ellie & Nida's title */
-        }
-        /* Second h1 (BLACKPINK Concert Countdown) in hot pink */
-        h1:last-of-type {
-            color: #ff69b4; /* Hot pink for BLACKPINK Concert Countdown title */
-        }
+
         #countdown {
             font-size: 2em;
             margin-top: 20px;
+            color: #ff69b4; /* Hot pink color for countdown text */
         }
-        /* Countdown numbers in hot pink */
+
         .countdown-number {
-            color: #C0C0C0; /* Hot pink for numbers */
+            color: #D5006D; /* Deep pink for numbers */
             font-weight: bold;
         }
-        /* Days, hours, minutes, seconds in light pink */
+
         .countdown-text {
-            color: #FFb3de; /* Light pink for days, hours, minutes, seconds */
+            color: #FFffff; /* White for text */
         }
+
         img.gif {
-            padding: 30px;
+            padding: 20px;
+            max-width: 100%; /* Makes the image responsive */
+            height: auto; /* Maintains aspect ratio */
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em; /* Slightly smaller text for smaller screens */
+            }
+
+            #countdown {
+                font-size: 1.5em; /* Smaller font size for countdown */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em; /* Even smaller for very small screens */
+            }
+
+            #countdown {
+                font-size: 1.2em; /* Adjust countdown size further */
+            }
         }
     </style>
 </head>
@@ -45,7 +65,7 @@
 <h1>💖 Ellie & Nida's 💖</h1>
 <h1>BLACKPINK Concert Countdown</h1>
 <div id="countdown">Loading...</div>
-<img src="/static/images/blackpink%20dance.gif" alt="BlackPink Dance GIF" width="600" class="gif">
+<img src="/static/images/blackpink%20dance.gif" alt="BlackPink Dance GIF" class="gif">
 
 <script>
     async function fetchCountdown() {
