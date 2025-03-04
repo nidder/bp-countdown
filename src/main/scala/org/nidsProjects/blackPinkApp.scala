@@ -45,16 +45,20 @@ object blackPinkApp extends IOApp {
       .getOrElse(port"8080")
 
     val host: Host = host"0.0.0.0"
-    val staticFiles = fileService[IO](FileService.Config("./src/main/resources/static"))
 
-    // Define routes
+    val staticFiles = fileService[IO](FileService.Config("./src/main/resources/static"))
     val service = HttpRoutes.of[IO] {
       case GET -> Root =>
-        Ok(getCountdown.asJson).orElse(staticFiles)
+        Ok(getCountdown.asJson)
 
       case req @ GET -> Root / "index.html" =>
         StaticFile.fromResource("/index.html", Some(req)).getOrElseF(NotFound())
+
+      // Serve the static files (like images, CSS, GIFs, etc.)
+      case req @ GET -> Root / "images" / file =>
+        StaticFile.fromResource(s"/images/$file", Some(req)).getOrElseF(NotFound())
     }
+
 
     val httpApp = Router("/" -> service).orNotFound
 
