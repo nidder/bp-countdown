@@ -31,8 +31,8 @@ object blackPinkApp extends IOApp {
     Countdown(
       days = duration.toDays,
       hours = duration.toHoursPart,
-      minutes = duration.toMinutes,
-      seconds = duration.toSeconds
+      minutes = duration.toMinutesPart,
+      seconds = duration.toSecondsPart
     )
   }
 
@@ -46,21 +46,26 @@ object blackPinkApp extends IOApp {
 
     val host: Host = host"0.0.0.0"
 
-    val staticFiles = fileService[IO](FileService.Config("./src/main/resources/static"))
+    // Static content routing (serve images, CSS, JS)
+    val staticFileService = HttpRoutes.of[IO] {
+      case req @ GET -> Root / "images" / file =>
+        StaticFile.fromResource(s"/static/images/$file", Some(req)).getOrElseF(NotFound())
+    }
+
+    // Service routing for countdown and index.html
     val service = HttpRoutes.of[IO] {
       case GET -> Root =>
         Ok(getCountdown.asJson)
 
       case req @ GET -> Root / "index.html" =>
         StaticFile.fromResource("/index.html", Some(req)).getOrElseF(NotFound())
-
-      // Serve the static files (like images, CSS, GIFs, etc.)
-      case req @ GET -> Root / "images" / file =>
-        StaticFile.fromResource(s"/images/$file", Some(req)).getOrElseF(NotFound())
     }
 
-
-    val httpApp = Router("/" -> service).orNotFound
+    // Combine static files routing with the app service
+    val httpApp = Router(
+      "/" -> service,
+      "/static" -> staticFileService
+    ).orNotFound
 
     // Start the server
     EmberServerBuilder.default[IO]
