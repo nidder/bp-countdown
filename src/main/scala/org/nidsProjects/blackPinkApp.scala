@@ -51,8 +51,8 @@ object blackPinkApp extends IOApp {
       case GET -> Root =>
         Ok(getCountdown.asJson)
 
-      case req @ GET -> Root / "index.html" =>
-        StaticFile.fromResource("/index.html", Some(req)).getOrElseF(NotFound())
+      case req @ GET -> Root / "static/index.html" =>
+        StaticFile.fromResource("/static/index.html", Some(req)).getOrElseF(NotFound())
 
       // Serve the static files (like images, CSS, GIFs, etc.)
       case req @ GET -> Root / "images" / file =>
