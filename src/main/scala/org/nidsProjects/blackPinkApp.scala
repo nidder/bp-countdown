@@ -1,52 +1,69 @@
 package org.nidsProjects
 
 import cats.effect.{ExitCode, IO, IOApp}
+import io.circe.syntax._
+import io.circe.generic.auto._
 import org.http4s._
-import org.http4s.ember.server.EmberServerBuilder
+import org.http4s.circe._
 import org.http4s.dsl.io._
 import org.http4s.implicits._
+import org.http4s.ember.server.EmberServerBuilder
+import org.http4s.server.staticcontent._
+import org.http4s.server.Router
 import com.comcast.ip4s._
 
 import java.time.{Duration, LocalDateTime}
 import scala.sys.env
 import scala.util.Try
 
-object blackPinkApp extends IOApp {
+object BlackPinkApp extends IOApp {
 
   val concertDate: LocalDateTime = LocalDateTime.of(2025, 8, 15, 17, 0)
 
-  def countdown(now: LocalDateTime, endDate: LocalDateTime): String = {
-    val duration = Duration.between(now, endDate)
-    val days = duration.toDays
-    val hours = duration.minusDays(days).toHours
-    val minutes = duration.minusDays(days).minusHours(hours).toMinutes
-    val seconds = duration.minusDays(days).minusHours(hours).minusMinutes(minutes).getSeconds
+  // Case class for JSON formatting
+  case class Countdown(days: Long, hours: Long, minutes: Long, seconds: Long)
 
-    s"Ellie & Nida's BlackPink Concert Countdown is.....Days: $days, Hours: $hours, Minutes: $minutes, Seconds: $seconds"
+  // Function to calculate countdown
+  def getCountdown: Countdown = {
+    val now = LocalDateTime.now()
+    val duration = Duration.between(now, concertDate)
+
+    Countdown(
+      days = duration.toDays,
+      hours = duration.minusDays(duration.toDays).toHours,
+      minutes = duration.minusDays(duration.toDays).minusHours(duration.toHours).toMinutes,
+      seconds = duration.minusDays(duration.toDays).minusHours(duration.toHours).minusMinutes(duration.toMinutes).getSeconds
+    )
   }
+
   def run(args: List[String]): IO[ExitCode] = {
     println("Server is starting...")
+
     val port: Port = env.get("PORT")
       .flatMap(p => Try(p.toInt).toOption)
       .flatMap(Port.fromInt)
       .getOrElse(port"8080")
+
     val host: Host = host"0.0.0.0"
 
-  val service = HttpRoutes.of[IO] {
-    case GET -> Root =>
-      val now = LocalDateTime.now()
-      Ok(countdown(now, concertDate))
-  }
+    // Define routes
+    val service = HttpRoutes.of[IO] {
+      case GET -> Root =>
+        Ok(getCountdown.asJson)
 
-  val httpApp = service.orNotFound
+      case req @ GET -> Root / "index.html" =>
+        StaticFile.fromResource("/index.html", Some(req)).getOrElseF(NotFound())
+    }
 
-  EmberServerBuilder.default[IO]
-    .withHost(host)
-    .withPort(port)
-    .withHttpApp(httpApp)
-    .build
-    .use(_ => IO.never)
-    .as(ExitCode.Success)
+    val httpApp = Router("/" -> service).orNotFound
 
+    // Start the server
+    EmberServerBuilder.default[IO]
+      .withHost(host)
+      .withPort(port)
+      .withHttpApp(httpApp)
+      .build
+      .use(_ => IO.never)
+      .as(ExitCode.Success)
   }
 }
