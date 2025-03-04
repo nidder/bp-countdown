@@ -7,19 +7,30 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #ff69b4;
+            background-color: #000; /* Black background */
+            color: #ff69b4; /* Hot pink text */
             text-align: center;
             padding: 50px;
         }
         h1 {
             font-size: 2.5em;
-            color: #Ffffff;
+            color: #FFFFFF; /* White color for header */
         }
         #countdown {
             font-size: 2em;
             margin-top: 20px;
-            color: #ff69b4;
+            color: #ff69b4; /* Hot pink color for countdown text */
+        }
+        .countdown-number {
+            color: #D5006D; /* Deep pink for numbers */
+            font-weight: bold;
+        }
+        .countdown-text {
+            color: #FFB6C1; /* Light pink for text */
+        }
+        img.gif {
+            padding: 20px;
+            border: 2px solid #6A0DAD; /* Purple border around GIF */
         }
     </style>
 </head>
@@ -27,15 +38,18 @@
 <h1>💖 Ellie & Nida's 💖</h1>
 <h1>BLACKPINK Concert Countdown</h1>
 <div id="countdown">Loading...</div>
-<img src="/static/images/blackpink%20dance.gif" alt="BlackPink Dance GIF" width="500" style="padding: 20px;">
-</body>
+<img src="/static/images/blackpink%20dance.gif" alt="BlackPink Dance GIF" width="500" class="gif">
+
 <script>
     async function fetchCountdown() {
         try {
             const response = await fetch("/");
             const data = await response.json();
-            document.getElementById("countdown").innerText =
-                `${data.days} days, ${data.hours} hours, ${data.minutes} minutes, ${data.seconds} seconds`;
+            document.getElementById("countdown").innerHTML =
+                `${data.days} <span class="countdown-text">days</span>, ` +
+                `${data.hours} <span class="countdown-text">hours</span>, ` +
+                `${data.minutes} <span class="countdown-text">minutes</span>, ` +
+                `${data.seconds} <span class="countdown-text">seconds</span>`;
         } catch (error) {
             console.error("Error fetching countdown:", error);
             document.getElementById("countdown").innerText = "Failed to load countdown.";
