@@ -16,7 +16,7 @@ import java.time.{Duration, LocalDateTime}
 import scala.sys.env
 import scala.util.Try
 
-object BlackPinkApp extends IOApp {
+object blackPinkApp extends IOApp {
 
   val concertDate: LocalDateTime = LocalDateTime.of(2025, 8, 15, 17, 0)
 
