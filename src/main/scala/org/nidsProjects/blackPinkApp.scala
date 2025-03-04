@@ -30,9 +30,9 @@ object blackPinkApp extends IOApp {
 
     Countdown(
       days = duration.toDays,
-      hours = duration.minusDays(duration.toDays).toHours,
-      minutes = duration.minusDays(duration.toDays).minusHours(duration.toHours).toMinutes,
-      seconds = duration.minusDays(duration.toDays).minusHours(duration.toHours).minusMinutes(duration.toMinutes).getSeconds
+      hours = duration.toHoursPart,
+      minutes = duration.toMinutes,
+      seconds = duration.toSeconds
     )
   }
 
