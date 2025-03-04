@@ -18,6 +18,10 @@ dependencies {
     implementation('org.http4s:http4s-dsl_2.13:0.23.6')
     implementation('org.http4s:http4s-core_2.13:0.23.6')
     implementation('com.comcast:ip4s-core_2.13:3.3.0')
+    implementation "org.http4s:http4s-circe_2.13:0.23.24"
+    implementation "io.circe:circe-core_2.13:0.14.6"
+    implementation "io.circe:circe-generic_2.13:0.14.6"
+    implementation "io.circe:circe-parser_2.13:0.14.6"
 
 }
 
