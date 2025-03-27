@@ -1,0 +1,1 @@
+A gradle / scala project deployed using the Railway service. Nixpacks.toml configuration has been added to use Gradle Build to execute the project. A working countdown timer should be displayed on this link: https://blackpink-countdown.up.railway.app/index.html for the 15th August 2025. 
