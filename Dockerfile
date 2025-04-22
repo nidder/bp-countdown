@@ -9,13 +9,13 @@ COPY . .
 COPY src/main/resources /app/resources
 
 # Stop Gradle daemon before running any command
-RUN ./gradlew --stop
+RUN gradle --stop
 
 # Clear Gradle cache
 RUN rm -rf ~/.gradle/caches
 
 # Build the project without running tests
-RUN ./gradlew build -x test
+RUN gradle build -x test
 
 # Run the application using gradle run
-CMD ["./gradlew", "run"]
+CMD ["gradle", "run"]
