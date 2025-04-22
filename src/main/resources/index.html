@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Ellie & Nida's BLACKPINK Countdown</title>
+    <title>Ellie 🐣 & Nida 🥚's BLACKPINK Countdown</title>
 
-    <!-- Font -->
+    <!-- Font for K-pop flair -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <!-- Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -16,48 +18,65 @@
           color: #ff69b4;
           text-align: center;
           padding: 20px;
-          overflow-x: hidden;
+          border: 10px solid transparent;
+          border-image: linear-gradient(45deg, #ff6ec4, #7873f5, #ffc0cb, #ff69b4);
+          border-image-slice: 1;
+          border-radius: 20px;
           box-sizing: border-box;
+          overflow-x: hidden;
+          position: relative;
         }
 
         h1 {
-          font-size: 3em;
+          font-size: 2.5em;
           letter-spacing: 2px;
           text-transform: uppercase;
-          background: linear-gradient(90deg, #ff69b4, #ffc0cb);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          background: none;
+          color: #ff69b4;
+          text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff1493;
           animation: pulse 2s infinite alternate;
           margin: 10px 0;
           position: relative;
           z-index: 2;
         }
 
-        .emoji {
-          -webkit-text-fill-color: initial;
-          background: none;
-          text-shadow: none;
-        }
-
         @keyframes pulse {
-          from { text-shadow: 0 0 10px #ff69b4; }
-          to { text-shadow: 0 0 20px #ff6ec4; }
+          from { text-shadow: 0 0 5px #ff69b4; }
+          to { text-shadow: 0 0 10px #ff6ec4; }
         }
 
         #countdown {
-          font-size: 2em;
-          margin-top: 20px;
-          color: #ff69b4;
-          text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493;
+          font-size: 1.8em;
+          margin-top: 10px;
+          text-shadow: 0 0 3px #ff69b4, 0 0 5px #ff1493;
         }
 
         .countdown-number {
           color: #D5006D;
           font-weight: bold;
+          text-shadow: 0 0 2px #ff69b4;
         }
 
         .countdown-text {
           color: #ffffff;
+          text-shadow: 0 0 2px #ff69b4;
+        }
+
+        .gif {
+          padding: 20px;
+          max-width: 100%;
+          height: auto;
+          border: 5px solid #ff69b4;
+          border-radius: 15px;
+          box-shadow: 0 0 20px #ff69b4, 0 0 30px #ff1493;
+          animation: pulse-border 2s infinite alternate;
+          z-index: 2;
+          position: relative;
+        }
+
+        @keyframes pulse-border {
+          from { box-shadow: 0 0 10px #ff69b4; }
+          to { box-shadow: 0 0 30px #ff1493; }
         }
 
         .sparkles {
@@ -76,66 +95,65 @@
 
         .lightstick {
           position: absolute;
-          top: 50%;
-          width: 60px;
-          transform: translateY(-50%);
+          top: 10%;
+          width: 70px;
           z-index: 1;
-          opacity: 0.9;
+          opacity: 0.85;
         }
 
         .left-stick {
-          left: 10px;
-          transform: translateY(-50%) scaleX(-1); /* Flipped */
+          left: 5px;
+          transform: scaleX(-1);
         }
 
         .right-stick {
-          right: 10px;
+          right: 5px;
         }
 
         body::before {
           content: "";
           position: fixed;
-          top: 0;
-          left: 0;
           width: 100%;
           height: 100%;
-          background: radial-gradient(circle, rgba(255,105,180,0.1) 0%, rgba(0,0,0,0.6) 70%);
-          animation: fadeLights 6s ease-in-out infinite alternate;
-          z-index: 0;
+          background: radial-gradient(circle at 10% 20%, #ff69b4 10%, transparent 25%),
+                      radial-gradient(circle at 90% 80%, #ff6ec4 10%, transparent 25%),
+                      radial-gradient(circle at 50% 50%, #ffc0cb 10%, transparent 20%);
+          background-size: 400px 400px;
+          opacity: 0.04;
+          animation: shimmer 15s linear infinite;
           pointer-events: none;
+          z-index: 0;
         }
 
-        @keyframes fadeLights {
-          0% { opacity: 0.2; }
-          100% { opacity: 0.5; }
+        @keyframes shimmer {
+          0% { background-position: 0 0, 100% 100%, 50% 50%; }
+          100% { background-position: 1000px 1000px, 0 0, 500px 500px; }
         }
 
         @media (max-width: 768px) {
-          h1 { font-size: 2.5em; }
+          h1 { font-size: 2em; }
           #countdown { font-size: 1.5em; }
-          .lightstick { width: 40px; }
+          .lightstick { width: 50px; top: 5%; }
         }
 
         @media (max-width: 480px) {
-          h1 { font-size: 2em; }
+          h1 { font-size: 1.5em; }
           #countdown { font-size: 1.2em; }
         }
     </style>
 </head>
 
 <body>
-<img src="static/images/lightsticks.png" class="lightstick left-stick" alt="Lightstick Left Image">
-<img src="static/images/lightsticks.png" class="lightstick right-stick" alt="Lightstick Right Image">
+<img src="static/images/blackpink_lightstick.png" alt="Lightstick Left" class="lightstick left-stick">
+<img src="static/images/blackpink_lightstick.png" alt="Lightstick Right" class="lightstick right-stick">
 
-<h1>
-    <span class="emoji">💖</span> Ellie
-    <span class="emoji">🐣</span> &amp; Nida
-    <span class="emoji">🥚</span> <span class="emoji">💖</span>
-</h1>
+<h1>Ellie 🐣 & Nida 🥚's</h1>
 <h1>BLACKPINK Concert Countdown</h1>
 
 <div id="countdown">Loading...</div>
 <div class="sparkles">✨💫🌟</div>
+
+<img src="static/images/blackpinkdance.gif" alt="BlackPink Dance GIF" class="gif">
 
 <script>
     async function fetchCountdown() {
@@ -160,7 +178,7 @@
     }
 
     function triggerConfetti() {
-      const duration = 7000;
+      const duration = 7 * 1000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
 
@@ -168,7 +186,7 @@
         return Math.random() * (max - min) + min;
       }
 
-      const interval = setInterval(() => {
+      const interval = setInterval(function () {
         const timeLeft = animationEnd - Date.now();
         if (timeLeft <= 0) return clearInterval(interval);
 
