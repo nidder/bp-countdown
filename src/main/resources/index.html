@@ -1,92 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ellie & Nida's BLACKPINK Countdown</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto:wght@400;700&display=swap');
 
+    <!-- Font for that bold K-pop feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
         body {
-          margin: 0;
-          font-family: 'Roboto', sans-serif;
-          background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
-          color: #fff;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          min-height: 100vh;
-          padding: 20px;
+          font-family: 'Bebas Neue', cursive;
+          background-color: #000000;
+          color: #ff69b4;
           text-align: center;
+          padding: 20px;
+          border: 10px solid;
+          border-image: linear-gradient(45deg, #ff6ec4, #7873f5, #ffc0cb, #ff69b4) 1;
+          box-sizing: border-box;
+          overflow-x: hidden;
         }
 
         h1 {
-          font-size: 3em;
-          margin: 0.2em 0;
-          background: linear-gradient(90deg, #ff6ec4, #7873f5);
+          font-size: 3.5em;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          background: linear-gradient(90deg, #ff69b4, #ffc0cb);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
-          font-family: 'Orbitron', sans-serif;
-          letter-spacing: 2px;
-          text-shadow: 0 0 10px #ff6ec4;
+          animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+          from { text-shadow: 0 0 10px #ff69b4; }
+          to { text-shadow: 0 0 20px #ff6ec4; }
         }
 
         #countdown {
           font-size: 2em;
-          margin: 1.5em 0;
-          display: flex;
-          gap: 1em;
-          flex-wrap: wrap;
-          justify-content: center;
-        }
-
-        .countdown-block {
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 15px;
-          padding: 1em 1.5em;
-          box-shadow: 0 0 15px #ff69b4;
-          backdrop-filter: blur(8px);
-        }
-
-        .countdown-number {
-          font-size: 2.5em;
-          font-weight: bold;
+          margin-top: 20px;
           color: #ff69b4;
         }
 
-        .countdown-label {
-          font-size: 1em;
+        .countdown-number {
+          color: #D5006D;
+          font-weight: bold;
+        }
+
+        .countdown-text {
           color: #ffffff;
-          margin-top: 0.3em;
         }
 
         img.gif {
-          width: 300px;
-          max-width: 90%;
-          margin-top: 2em;
-          border-radius: 15px;
-          box-shadow: 0 0 25px #ff69b4;
+          padding: 20px;
+          max-width: 100%;
+          height: auto;
         }
 
-        @media (max-width: 600px) {
-          h1 {
-            font-size: 2em;
-          }
+        body::after {
+          content: "";
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          background: url('https://cdn.pixabay.com/photo/2017/08/30/07/52/background-2690980_960_720.png') repeat;
+          background-size: 400px;
+          opacity: 0.03;
+          pointer-events: none;
+          animation: float 60s linear infinite;
+          z-index: 0;
+        }
 
-          .countdown-number {
-            font-size: 2em;
-          }
+        @keyframes float {
+          from { background-position: 0 0; }
+          to { background-position: 1000px 1000px; }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+          h1 { font-size: 2.5em; }
+          #countdown { font-size: 1.5em; }
+        }
+
+        @media (max-width: 480px) {
+          h1 { font-size: 2em; }
+          #countdown { font-size: 1.2em; }
         }
     </style>
 </head>
+
 <body>
 <h1>💖 Ellie & Nida's 💖</h1>
-<h1>BLACKPINK Countdown</h1>
-
+<h1>BLACKPINK Concert Countdown</h1>
 <div id="countdown">Loading...</div>
-
-<img src="/images/blackpinkdance.gif" alt="BLACKPINK Dancing" class="gif">
+<img src="static/images/blackpinkdance.gif" alt="BlackPink Dance GIF" class="gif">
 
 <script>
     async function fetchCountdown() {
@@ -94,22 +103,43 @@
         const response = await fetch("/countdown");
         const data = await response.json();
 
-        const parts = [
-          { label: "Days", value: data.days },
-          { label: "Hours", value: data.hours },
-          { label: "Minutes", value: data.minutes },
-          { label: "Seconds", value: data.seconds }
-        ];
-
-        document.getElementById("countdown").innerHTML = parts.map(p =>
-          `<div class="countdown-block">
-             <div class="countdown-number">${p.value}</div>
-             <div class="countdown-label">${p.label}</div>
-           </div>`).join('');
-      } catch (err) {
-        document.getElementById("countdown").innerText = "Countdown failed to load 😢";
-        console.error(err);
+        if (data.days === 0 && data.hours === 0 && data.minutes === 0 && data.seconds === 0) {
+          triggerConfetti();
+          document.getElementById("countdown").innerHTML = "💥 IT’S BLACKPINK TIME 💥";
+        } else {
+          document.getElementById("countdown").innerHTML =
+            `<span class="countdown-number">${data.days}</span> <span class="countdown-text">days</span>, ` +
+            `<span class="countdown-number">${data.hours}</span> <span class="countdown-text">hours</span>, ` +
+            `<span class="countdown-number">${data.minutes}</span> <span class="countdown-text">minutes</span>, ` +
+            `<span class="countdown-number">${data.seconds}</span> <span class="countdown-text">seconds</span>`;
+        }
+      } catch (error) {
+        console.error("Error fetching countdown:", error);
+        document.getElementById("countdown").innerText = "Failed to load countdown.";
       }
+    }
+
+    function triggerConfetti() {
+      const duration = 7 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) return clearInterval(interval);
+
+        confetti(Object.assign({}, defaults, {
+          particleCount: 100,
+          origin: {
+            x: randomInRange(0.1, 0.9),
+            y: Math.random() - 0.2
+          }
+        }));
+      }, 250);
     }
 
     fetchCountdown();
