@@ -6,4 +6,4 @@ COPY . .
 
 RUN ./gradlew build -x test
 
-CMD ["java", "-cp", "build/classes/java/main", "org.nidsProjects.blackPinkApp"]
+CMD ["java", "-cp", "build/classes/scala/main", "org.nidsProjects.blackPinkApp"]
