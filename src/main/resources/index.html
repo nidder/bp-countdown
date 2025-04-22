@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ellie & Nida's BLACKPINK Countdown</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Ellie 🐣 & Nida 🥚's BLACKPINK Countdown</title>
 
-    <!-- Font for that bold K-pop feel -->
+    <!-- Font for K-pop flair -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
-    <!-- Canvas Confetti -->
+    <!-- Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         body {
           font-family: 'Bebas Neue', cursive;
-          background-color: #000000;
+          background-color: #000;
           color: #ff69b4;
           text-align: center;
           padding: 20px;
-          border: 10px solid;
-          border-image: linear-gradient(45deg, #ff6ec4, #7873f5, #ffc0cb, #ff69b4) 1;
+          border: 10px solid transparent;
+          border-image: linear-gradient(45deg, #ff6ec4, #7873f5, #ffc0cb, #ff69b4);
+          border-image-slice: 1;
+          border-radius: 20px;
           box-sizing: border-box;
           overflow-x: hidden;
+          position: relative;
         }
 
         h1 {
@@ -32,6 +35,9 @@
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           animation: pulse 2s infinite alternate;
+          margin: 10px 0;
+          position: relative;
+          z-index: 2;
         }
 
         @keyframes pulse {
@@ -43,6 +49,7 @@
           font-size: 2em;
           margin-top: 20px;
           color: #ff69b4;
+          text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493;
         }
 
         .countdown-number {
@@ -58,6 +65,45 @@
           padding: 20px;
           max-width: 100%;
           height: auto;
+          border: 5px solid #ff69b4;
+          border-radius: 15px;
+          box-shadow: 0 0 20px #ff69b4, 0 0 30px #ff1493;
+          animation: pulse-border 2s infinite alternate;
+          z-index: 2;
+          position: relative;
+        }
+
+        @keyframes pulse-border {
+          from { box-shadow: 0 0 10px #ff69b4; }
+          to { box-shadow: 0 0 30px #ff1493; }
+        }
+
+        .sparkles {
+          font-size: 2em;
+          animation: sparkle 2s infinite;
+          margin-top: 10px;
+          z-index: 2;
+          position: relative;
+        }
+
+        @keyframes sparkle {
+          0% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.2); opacity: 1; }
+          100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        .extra-images {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
+          margin-top: 20px;
+        }
+
+        .extra-images img {
+          max-width: 120px;
+          border-radius: 10px;
+          box-shadow: 0 0 10px #ff69b4;
         }
 
         body::after {
@@ -73,12 +119,22 @@
           z-index: 0;
         }
 
+        body::before {
+          content: "";
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          background: url('https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif') center center / cover no-repeat;
+          opacity: 0.05;
+          pointer-events: none;
+          z-index: 0;
+        }
+
         @keyframes float {
           from { background-position: 0 0; }
           to { background-position: 1000px 1000px; }
         }
 
-        /* Mobile responsiveness */
         @media (max-width: 768px) {
           h1 { font-size: 2.5em; }
           #countdown { font-size: 1.5em; }
@@ -92,10 +148,19 @@
 </head>
 
 <body>
-<h1>💖 Ellie & Nida's 💖</h1>
+<h1>💖 Ellie 🐣 & Nida 🥚's 💖</h1>
 <h1>BLACKPINK Concert Countdown</h1>
+
 <div id="countdown">Loading...</div>
+<div class="sparkles">✨💫🌟</div>
+
 <img src="static/images/blackpinkdance.gif" alt="BlackPink Dance GIF" class="gif">
+
+<div class="extra-images">
+    <img src="https://i.pinimg.com/originals/b9/fc/0e/b9fc0e4093904ad292c94f95a3b3258f.jpg" alt="Blackpink Poster">
+    <img src="https://i.pinimg.com/originals/85/c9/1e/85c91e51734dcb7e2c0d6e74077d3ddf.jpg" alt="Concert Lightstick">
+    <img src="https://i.pinimg.com/originals/e4/41/58/e441589b05a0b56134797dfb1f5a69e9.jpg" alt="Fans Cheering">
+</div>
 
 <script>
     async function fetchCountdown() {
