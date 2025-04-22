@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Ellie 🐣 & Nida 🥚's BLACKPINK Countdown</title>
+    <title>BLACKPINK Countdown</title>
 
-    <!-- Font for K-pop flair -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-
-    <!-- Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -18,48 +15,55 @@
           color: #ff69b4;
           text-align: center;
           padding: 20px;
-          border: 10px solid transparent;
-          border-image: linear-gradient(45deg, #ff6ec4, #7873f5, #ffc0cb, #ff69b4);
-          border-image-slice: 1;
-          border-radius: 20px;
           box-sizing: border-box;
           overflow-x: hidden;
           position: relative;
         }
 
         h1 {
-          font-size: 2.5em;
+          font-size: 3em;
           letter-spacing: 2px;
-          text-transform: uppercase;
-          background: none;
-          color: #ff69b4;
-          text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff1493;
-          animation: pulse 2s infinite alternate;
-          margin: 10px 0;
+          margin: 0;
           position: relative;
           z-index: 2;
         }
 
+        .title-line {
+          background: none;
+          color: #ff69b4;
+          text-shadow: 0 0 5px #ff69b4;
+        }
+
+        .highlight {
+          font-size: 3.5em;
+          background: linear-gradient(90deg, #ff69b4, #ffc0cb);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: pulse 2s infinite alternate;
+          margin: 0;
+          z-index: 2;
+          position: relative;
+        }
+
         @keyframes pulse {
-          from { text-shadow: 0 0 5px #ff69b4; }
-          to { text-shadow: 0 0 10px #ff6ec4; }
+          from { text-shadow: 0 0 10px #ff69b4; }
+          to { text-shadow: 0 0 20px #ff6ec4; }
         }
 
         #countdown {
-          font-size: 1.8em;
-          margin-top: 10px;
-          text-shadow: 0 0 3px #ff69b4, 0 0 5px #ff1493;
+          font-size: 2em;
+          margin-top: 20px;
+          color: #ff69b4;
+          text-shadow: 0 0 4px #ff69b4, 0 0 8px #ff1493;
         }
 
         .countdown-number {
           color: #D5006D;
           font-weight: bold;
-          text-shadow: 0 0 2px #ff69b4;
         }
 
         .countdown-text {
           color: #ffffff;
-          text-shadow: 0 0 2px #ff69b4;
         }
 
         .gif {
@@ -96,59 +100,65 @@
         .lightstick {
           position: absolute;
           top: 10%;
-          width: 70px;
-          z-index: 1;
-          opacity: 0.85;
+          width: 130px;
+          z-index: 3;
+          opacity: 1;
+          filter: drop-shadow(0 0 10px #ff69b4);
+          animation: glowPulse 2s infinite alternate;
         }
 
         .left-stick {
-          left: 5px;
+          left: 0;
           transform: scaleX(-1);
         }
 
         .right-stick {
-          right: 5px;
+          right: 0;
+        }
+
+        @keyframes glowPulse {
+          from { filter: drop-shadow(0 0 10px #ff69b4); }
+          to   { filter: drop-shadow(0 0 20px #ff1493); }
         }
 
         body::before {
           content: "";
           position: fixed;
+          top: 0; left: 0;
           width: 100%;
           height: 100%;
-          background: radial-gradient(circle at 10% 20%, #ff69b4 10%, transparent 25%),
-                      radial-gradient(circle at 90% 80%, #ff6ec4 10%, transparent 25%),
-                      radial-gradient(circle at 50% 50%, #ffc0cb 10%, transparent 20%);
-          background-size: 400px 400px;
+          background: radial-gradient(circle, #ff69b4 1px, transparent 1px);
+          background-size: 20px 20px;
           opacity: 0.04;
-          animation: shimmer 15s linear infinite;
-          pointer-events: none;
           z-index: 0;
+          animation: backgroundFade 5s infinite alternate;
         }
 
-        @keyframes shimmer {
-          0% { background-position: 0 0, 100% 100%, 50% 50%; }
-          100% { background-position: 1000px 1000px, 0 0, 500px 500px; }
+        @keyframes backgroundFade {
+          from { opacity: 0.02; }
+          to   { opacity: 0.07; }
         }
 
         @media (max-width: 768px) {
           h1 { font-size: 2em; }
+          .highlight { font-size: 2.5em; }
           #countdown { font-size: 1.5em; }
-          .lightstick { width: 50px; top: 5%; }
+          .lightstick { width: 90px; top: 15%; }
         }
 
         @media (max-width: 480px) {
-          h1 { font-size: 1.5em; }
+          .highlight { font-size: 2em; }
           #countdown { font-size: 1.2em; }
         }
     </style>
 </head>
 
 <body>
-<img src="static/images/blackpink_lightstick.png" alt="Lightstick Left" class="lightstick left-stick">
-<img src="static/images/blackpink_lightstick.png" alt="Lightstick Right" class="lightstick right-stick">
+<img src="static/images/lightstick.png" class="lightstick left-stick" alt="Lightstick Left">
+<img src="static/images/lightstick.png" class="lightstick right-stick" alt="Lightstick Right">
 
-<h1>Ellie 🐣 & Nida 🥚's</h1>
-<h1>BLACKPINK Concert Countdown</h1>
+<h1 class="title-line">Ellie 🐣 & Nida 🥚's</h1>
+<h1 class="highlight">BLACKPINK Concert Countdown</h1>
 
 <div id="countdown">Loading...</div>
 <div class="sparkles">✨💫🌟</div>
