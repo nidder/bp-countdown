@@ -50,15 +50,14 @@ object blackPinkApp extends IOApp {
     val staticFileService = HttpRoutes.of[IO] {
       case req @ GET -> Root / "images" / file =>
         StaticFile.fromResource(s"/static/images/$file", Some(req)).getOrElseF(NotFound())
+      case req @ GET -> Root / "index.html" =>
+        StaticFile.fromResource("/index.html", Some(req)).getOrElseF(NotFound())
     }
 
-    // Service routing for countdown and index.html
+    // Service routing for countdown
     val service = HttpRoutes.of[IO] {
       case GET -> Root =>
         Ok(getCountdown.asJson)
-
-      case req @ GET -> Root / "index.html" =>
-        StaticFile.fromResource("/index.html", Some(req)).getOrElseF(NotFound())
     }
 
     // Combine static files routing with the app service
