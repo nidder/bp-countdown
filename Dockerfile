@@ -2,20 +2,14 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# Copy the project files into the container
+# Copy entire project
 COPY . .
 
-# Copy resources to the appropriate location
-COPY src/main/resources /app/resources
+# Give permission to gradlew
+RUN chmod +x ./gradlew
 
-# Stop Gradle daemon before running any command
-RUN ./gradlew --stop
+# Build project and ensure resources are processed
+RUN ./gradlew clean build -x test
 
-# Clear Gradle cache
-RUN rm -rf ~/.gradle/caches
-
-# Build the project without running tests
-RUN ./gradlew build -x test
-
-# Run the application using gradle run
+# Run the jar (if you're producing it) OR use gradle run
 CMD ["./gradlew", "run"]
