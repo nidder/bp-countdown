@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Ellie 🐣 & Nida 🥚's BLACKPINK Countdown</title>
+    <title>Ellie & Nida's BLACKPINK Countdown</title>
 
-    <!-- Font for K-pop flair -->
+    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-
-    <!-- Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -18,13 +16,8 @@
           color: #ff69b4;
           text-align: center;
           padding: 20px;
-          border: 10px solid transparent;
-          border-image: linear-gradient(45deg, #ff6ec4, #7873f5, #ffc0cb, #ff69b4);
-          border-image-slice: 1;
-          border-radius: 20px;
-          box-sizing: border-box;
           overflow-x: hidden;
-          position: relative;
+          box-sizing: border-box;
         }
 
         h1 {
@@ -38,6 +31,12 @@
           margin: 10px 0;
           position: relative;
           z-index: 2;
+        }
+
+        .emoji {
+          -webkit-text-fill-color: initial;
+          background: none;
+          text-shadow: none;
         }
 
         @keyframes pulse {
@@ -61,23 +60,6 @@
           color: #ffffff;
         }
 
-        img.gif {
-          padding: 20px;
-          max-width: 100%;
-          height: auto;
-          border: 5px solid #ff69b4;
-          border-radius: 15px;
-          box-shadow: 0 0 20px #ff69b4, 0 0 30px #ff1493;
-          animation: pulse-border 2s infinite alternate;
-          z-index: 2;
-          position: relative;
-        }
-
-        @keyframes pulse-border {
-          from { box-shadow: 0 0 10px #ff69b4; }
-          to { box-shadow: 0 0 30px #ff1493; }
-        }
-
         .sparkles {
           font-size: 2em;
           animation: sparkle 2s infinite;
@@ -92,46 +74,46 @@
           100% { transform: scale(1); opacity: 0.8; }
         }
 
-        /* Sparkly limo lights fading in and out */
+        .lightstick {
+          position: absolute;
+          top: 50%;
+          width: 60px;
+          transform: translateY(-50%);
+          z-index: 1;
+          opacity: 0.9;
+        }
+
+        .left-stick {
+          left: 10px;
+          transform: translateY(-50%) scaleX(-1); /* Flipped */
+        }
+
+        .right-stick {
+          right: 10px;
+        }
+
         body::before {
           content: "";
           position: fixed;
+          top: 0;
+          left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, rgba(255, 105, 180, 0.8), rgba(255, 20, 147, 0.8));
-          background-size: 400% 400%;
-          animation: limoLights 3s ease infinite;
-          pointer-events: none;
+          background: radial-gradient(circle, rgba(255,105,180,0.1) 0%, rgba(0,0,0,0.6) 70%);
+          animation: fadeLights 6s ease-in-out infinite alternate;
           z-index: 0;
+          pointer-events: none;
         }
 
-        @keyframes limoLights {
-          0% { background-position: 100% 100%; }
-          50% { background-position: 0% 0%; }
-          100% { background-position: 100% 100%; }
-        }
-
-        /* Positioning the lightsticks */
-        .lightstick-left, .lightstick-right {
-          position: fixed;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 150px;
-          height: auto;
-          z-index: 1;
-        }
-
-        .lightstick-left {
-          left: 0;
-        }
-
-        .lightstick-right {
-          right: 0;
+        @keyframes fadeLights {
+          0% { opacity: 0.2; }
+          100% { opacity: 0.5; }
         }
 
         @media (max-width: 768px) {
           h1 { font-size: 2.5em; }
           #countdown { font-size: 1.5em; }
+          .lightstick { width: 40px; }
         }
 
         @media (max-width: 480px) {
@@ -142,17 +124,18 @@
 </head>
 
 <body>
-<h1>💖 Ellie 🐣 & Nida 🥚's 💖</h1>
+<img src="static/images/lightstick.png" class="lightstick left-stick" alt="Lightstick Left">
+<img src="static/images/lightstick.png" class="lightstick right-stick" alt="Lightstick Right">
+
+<h1>
+    <span class="emoji">💖</span> Ellie
+    <span class="emoji">🐣</span> &amp; Nida
+    <span class="emoji">🥚</span> <span class="emoji">💖</span>
+</h1>
 <h1>BLACKPINK Concert Countdown</h1>
 
 <div id="countdown">Loading...</div>
 <div class="sparkles">✨💫🌟</div>
-
-<img src="static/images/blackpinkdance.gif" alt="BlackPink Dance GIF" class="gif">
-
-<!-- Blackpink Lightsticks on both sides -->
-<img src="lightstick.png" alt="Blackpink Lightstick Left" class="lightstick-left">
-<img src="lightstick.png" alt="Blackpink Lightstick Right" class="lightstick-right">
 
 <script>
     async function fetchCountdown() {
@@ -177,7 +160,7 @@
     }
 
     function triggerConfetti() {
-      const duration = 7 * 1000;
+      const duration = 7000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
 
@@ -185,7 +168,7 @@
         return Math.random() * (max - min) + min;
       }
 
-      const interval = setInterval(function () {
+      const interval = setInterval(() => {
         const timeLeft = animationEnd - Date.now();
         if (timeLeft <= 0) return clearInterval(interval);
 
