@@ -1,92 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Ellie & Nida's BLACKPINK Countdown</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto:wght@400;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #000; /* Black background */
-            color: #ff69b4; /* Hot pink text */
-            text-align: center;
-            padding: 20px;
+          margin: 0;
+          font-family: 'Roboto', sans-serif;
+          background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+          color: #fff;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          padding: 20px;
+          text-align: center;
         }
 
         h1 {
-            font-size: 2.5em;
-            color: #ff69b4; /* Hot pink color for header */
-        }
-
-        /* Specific style for "Ellie & Nida's" to make it white */
-        h1:first-of-type {
-            color: #FFFFFF; /* White color for Ellie & Nida's */
+          font-size: 3em;
+          margin: 0.2em 0;
+          background: linear-gradient(90deg, #ff6ec4, #7873f5);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-family: 'Orbitron', sans-serif;
+          letter-spacing: 2px;
+          text-shadow: 0 0 10px #ff6ec4;
         }
 
         #countdown {
-            font-size: 2em;
-            margin-top: 20px;
-            color: #ff69b4; /* Hot pink color for countdown text */
+          font-size: 2em;
+          margin: 1.5em 0;
+          display: flex;
+          gap: 1em;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .countdown-block {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 15px;
+          padding: 1em 1.5em;
+          box-shadow: 0 0 15px #ff69b4;
+          backdrop-filter: blur(8px);
         }
 
         .countdown-number {
-            color: #D5006D; /* Deep pink for numbers */
-            font-weight: bold;
+          font-size: 2.5em;
+          font-weight: bold;
+          color: #ff69b4;
         }
 
-        .countdown-text {
-            color: #FFffff; /* White for text */
+        .countdown-label {
+          font-size: 1em;
+          color: #ffffff;
+          margin-top: 0.3em;
         }
 
         img.gif {
-            padding: 20px;
-            max-width: 100%; /* Makes the image responsive */
-            height: auto; /* Maintains aspect ratio */
+          width: 300px;
+          max-width: 90%;
+          margin-top: 2em;
+          border-radius: 15px;
+          box-shadow: 0 0 25px #ff69b4;
         }
 
-        /* Media queries for responsiveness */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2em; /* Slightly smaller text for smaller screens */
-            }
+        @media (max-width: 600px) {
+          h1 {
+            font-size: 2em;
+          }
 
-            #countdown {
-                font-size: 1.5em; /* Smaller font size for countdown */
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5em; /* Even smaller for very small screens */
-            }
-
-            #countdown {
-                font-size: 1.2em; /* Adjust countdown size further */
-            }
+          .countdown-number {
+            font-size: 2em;
+          }
         }
     </style>
 </head>
 <body>
 <h1>💖 Ellie & Nida's 💖</h1>
-<h1>BLACKPINK Concert Countdown</h1>
+<h1>BLACKPINK Countdown</h1>
+
 <div id="countdown">Loading...</div>
-<img src="/static/images/blackpinkdance.gif" alt="BlackPink Dance GIF" class="gif">
+
+<img src="/images/blackpinkdance.gif" alt="BLACKPINK Dancing" class="gif">
 
 <script>
     async function fetchCountdown() {
-        try {
-            const response = await fetch("/countdown");
-            const data = await response.json();
-            document.getElementById("countdown").innerHTML =
-                `${data.days} <span class="countdown-text">days</span>, ` +
-                `${data.hours} <span class="countdown-text">hours</span>, ` +
-                `${data.minutes} <span class="countdown-text">minutes</span>, ` +
-                `${data.seconds} <span class="countdown-text">seconds</span>`;
-        } catch (error) {
-            console.error("Error fetching countdown:", error);
-            document.getElementById("countdown").innerText = "Failed to load countdown.";
-        }
+      try {
+        const response = await fetch("/countdown");
+        const data = await response.json();
+
+        const parts = [
+          { label: "Days", value: data.days },
+          { label: "Hours", value: data.hours },
+          { label: "Minutes", value: data.minutes },
+          { label: "Seconds", value: data.seconds }
+        ];
+
+        document.getElementById("countdown").innerHTML = parts.map(p =>
+          `<div class="countdown-block">
+             <div class="countdown-number">${p.value}</div>
+             <div class="countdown-label">${p.label}</div>
+           </div>`).join('');
+      } catch (err) {
+        document.getElementById("countdown").innerText = "Countdown failed to load 😢";
+        console.error(err);
+      }
     }
+
     fetchCountdown();
     setInterval(fetchCountdown, 1000);
 </script>
