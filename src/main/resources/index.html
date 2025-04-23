@@ -90,22 +90,35 @@
         }
 
         .lightsticks {
-          margin-top: 30px;
+          position: fixed;
+          bottom: 10px;
+          left: 50%;
+          transform: translateX(-50%);
           display: flex;
-          justify-content: center;
           gap: 20px;
           z-index: 1;
         }
 
         .lightstick {
-          height: 60px;
-          animation: glow 2s infinite alternate ease-in-out;
+          height: 80px;
+          animation: glow 2s infinite alternate ease-in-out, wiggle 0.8s infinite ease-in-out;
           filter: drop-shadow(0 0 5px #ff69b4);
         }
 
         @keyframes glow {
           from { filter: drop-shadow(0 0 5px #ff69b4); }
           to   { filter: drop-shadow(0 0 15px #ff69b4); }
+        }
+
+        @keyframes wiggle {
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(10deg); }
+          50% { transform: rotate(0deg); }
+          75% { transform: rotate(-10deg); }
+        }
+
+        .flipped {
+          transform: scaleX(-1);
         }
 
         body::before {
@@ -226,7 +239,7 @@
 <img src="static/images/blackpinkdance.gif" alt="BlackPink Dance GIF" class="gif">
 
 <div class="lightsticks">
-    <img src="static/images/lightsticks.jpg" class="lightstick" alt="Lightstick Left">
+    <img src="static/images/lightsticks.jpg" class="lightstick flipped" alt="Lightstick Left">
     <img src="static/images/lightsticks.jpg" class="lightstick" alt="Lightstick Right">
 </div>
 
