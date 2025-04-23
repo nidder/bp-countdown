@@ -26,7 +26,8 @@
           margin: 0 0 10px;
           position: relative;
           z-index: 2;
-          text-shadow: 0 0 5px #ff8ac9;
+          text-shadow: 0 0 10px #ff69b4; /* Updated glow */
+          color: #ff1493; /* Stronger color */
         }
 
         .highlight {
@@ -38,18 +39,19 @@
           margin: 0;
           z-index: 2;
           position: relative;
+          color: #ff1493; /* Better visibility */
         }
 
         @keyframes pulse {
           from { text-shadow: 0 0 10px #ff69b4; }
-          to { text-shadow: 0 0 20px #ff6ec4; }
+          to { text-shadow: 0 0 15px #ff1493; }
         }
 
         #countdown {
           font-size: 1.6em;
           margin: 20px auto;
           color: #ff69b4;
-          text-shadow: 0 0 4px #ff69b4, 0 0 8px #ff1493;
+          text-shadow: 0 0 4px #ff69b4, 0 0 6px #ff1493; /* Reduced glow */
         }
 
         .countdown-box {
@@ -65,6 +67,7 @@
           color: #ffb6c1;
           font-weight: bold;
           font-size: 2.2em;
+          text-shadow: none; /* Removed extra glow */
         }
 
         .countdown-text {
@@ -100,7 +103,7 @@
         }
 
         .lightstick {
-          height: 80px;
+          height: 100px;
           animation: glow 2s infinite alternate ease-in-out, wiggle 0.8s infinite ease-in-out;
           filter: drop-shadow(0 0 5px #ff69b4);
         }
