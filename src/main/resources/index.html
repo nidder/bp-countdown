@@ -21,20 +21,23 @@
         }
 
         h1 {
-          font-size: 3em;
-          margin: 0;
+          font-size: 2.8em;
+          letter-spacing: 2px;
+          margin: 0 0 10px;
           position: relative;
           z-index: 2;
-          color: #fff;
-          text-shadow: 0 0 3px #ff69b4, 0 0 10px #ff1493;
+          text-shadow: 0 0 5px #ff8ac9;
         }
 
         .highlight {
-          font-size: 3.5em;
+          font-size: 3.2em;
           background: linear-gradient(90deg, #ff69b4, #ffc0cb);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           animation: pulse 2s infinite alternate;
+          margin: 0;
+          z-index: 2;
+          position: relative;
         }
 
         @keyframes pulse {
@@ -43,31 +46,30 @@
         }
 
         #countdown {
-          font-size: 1.8em;
-          margin-top: 20px;
+          font-size: 1.6em;
+          margin: 20px auto;
           color: #ff69b4;
           text-shadow: 0 0 4px #ff69b4, 0 0 8px #ff1493;
         }
 
         .countdown-box {
           display: inline-block;
-          margin: 10px;
-          padding: 10px 15px;
-          background: rgba(255, 255, 255, 0.08);
+          margin: 5px;
+          padding: 15px 20px;
+          background: rgba(255, 255, 255, 0.07);
           border-radius: 10px;
-          box-shadow: 0 0 15px #ff69b4, 0 0 20px #ff1493;
+          box-shadow: 0 0 10px #ff69b4, 0 0 15px #ff1493;
         }
 
         .countdown-number {
-          color: #FF77B9;
+          color: #ffb6c1;
           font-weight: bold;
-          font-size: 2.5em;
+          font-size: 2.2em;
         }
 
         .countdown-text {
           color: #fff;
-          font-size: 0.7em;
-          display: block;
+          font-size: 0.8em;
         }
 
         .gif {
@@ -78,11 +80,32 @@
           border-radius: 15px;
           box-shadow: 0 0 15px #ff69b4, 0 0 25px #ff1493;
           animation: pulse-border 2s infinite alternate;
+          z-index: 2;
+          position: relative;
         }
 
         @keyframes pulse-border {
           from { box-shadow: 0 0 10px #ff69b4; }
           to { box-shadow: 0 0 30px #ff1493; }
+        }
+
+        .lightsticks {
+          margin-top: 30px;
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+          z-index: 1;
+        }
+
+        .lightstick {
+          height: 60px;
+          animation: glow 2s infinite alternate ease-in-out;
+          filter: drop-shadow(0 0 5px #ff69b4);
+        }
+
+        @keyframes glow {
+          from { filter: drop-shadow(0 0 5px #ff69b4); }
+          to   { filter: drop-shadow(0 0 15px #ff69b4); }
         }
 
         body::before {
@@ -136,35 +159,42 @@
         }
 
         @keyframes floatUp {
-          0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
-          50% { opacity: 0.6; }
-          100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+          0% {
+            transform: translateY(100vh) scale(0.8);
+            opacity: 0;
+          }
+          50% {
+            opacity: 0.6;
+          }
+          100% {
+            transform: translateY(-10vh) scale(1.2);
+            opacity: 0;
+          }
         }
 
         @keyframes twinkle {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.5); }
+          0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.5);
+          }
         }
 
         @media (max-width: 768px) {
           h1 { font-size: 2.2em; }
           .highlight { font-size: 2.5em; }
-          #countdown { font-size: 1.4em; }
-          .countdown-box {
-            padding: 10px;
-          }
+          #countdown { font-size: 1.3em; }
         }
 
         @media (max-width: 480px) {
+          h1 { font-size: 1.8em; }
           .highlight { font-size: 2em; }
-          #countdown { font-size: 1.2em; }
-          .countdown-box {
-            padding: 8px;
-            font-size: 1.2em;
-          }
-          .countdown-number {
-            font-size: 2em;
-          }
+          .countdown-box { padding: 10px 15px; }
+          .countdown-number { font-size: 2em; }
+          .lightstick { height: 45px; }
         }
     </style>
 </head>
@@ -187,13 +217,18 @@
 <h1 class="highlight">BLACKPINK Concert Countdown</h1>
 
 <div id="countdown">
-    <div class="countdown-box"><span class="countdown-number" id="days">00</span><span class="countdown-text">DAYS</span></div>
-    <div class="countdown-box"><span class="countdown-number" id="hours">00</span><span class="countdown-text">HOURS</span></div>
-    <div class="countdown-box"><span class="countdown-number" id="minutes">00</span><span class="countdown-text">MINUTES</span></div>
-    <div class="countdown-box"><span class="countdown-number" id="seconds">00</span><span class="countdown-text">SECONDS</span></div>
+    <div class="countdown-box"><span class="countdown-number" id="days">00</span> <span class="countdown-text">days</span></div>
+    <div class="countdown-box"><span class="countdown-number" id="hours">00</span> <span class="countdown-text">hours</span></div>
+    <div class="countdown-box"><span class="countdown-number" id="minutes">00</span> <span class="countdown-text">minutes</span></div>
+    <div class="countdown-box"><span class="countdown-number" id="seconds">00</span> <span class="countdown-text">seconds</span></div>
 </div>
 
 <img src="static/images/blackpinkdance.gif" alt="BlackPink Dance GIF" class="gif">
+
+<div class="lightsticks">
+    <img src="static/images/lightstick-left.png" class="lightstick" alt="Lightstick Left">
+    <img src="static/images/lightstick-right.png" class="lightstick" alt="Lightstick Right">
+</div>
 
 <script>
     async function fetchCountdown() {
